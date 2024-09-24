@@ -7,9 +7,7 @@ type Customer = {
   industry: string;
 };
 
-type GetCustomerResponse = {};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
   const result = await axios.get<{
     customers: Customer[];
   }>("http://localhost:8000/api/customers/");
@@ -19,6 +17,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       customers: result.data.customers,
     },
+    revalidate: 60,
   };
 };
 
