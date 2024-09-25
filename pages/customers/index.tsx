@@ -1,21 +1,28 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 import axios from "axios";
+import { MongoClient, ObjectId } from "mongodb";
 
 export type Customer = {
-  id: number;
+  _id: ObjectId;
   name: string;
   industry: string;
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const result = await axios.get<{
+  const mongoClient = new MongoClient(
+    `mongodb+srv://admin:yGjmZsAFPsezgfzV@customers.eeuts.mongodb.net/Customers?retryWrites=true&w=majority&appName=Customers`
+  );
+  const data = await mongoClient.db().collection("Customers").find().toArray();
+  console.log("!!!", data);
+
+  /*const result = await axios.get<{
     customers: Customer[];
   }>("http://localhost:8000/api/customers/");
-  console.log(result.data.customers);
+  console.log(result.data.customers);*/
 
   return {
     props: {
-      customers: result.data.customers,
+      customers: JSON.parse(JSON.stringify(data)),
     },
     revalidate: 60,
   };
@@ -30,8 +37,8 @@ const Customers: NextPage = ({
       <h1>Customers</h1>
       {customers.map((customer: Customer) => {
         return (
-          <div key={customer.id}>
-            <p>{customer.id}</p>
+          <div key={customer._id.toString()}>
+            <p>{customer._id.toString()}</p>
             <p>{customer.name}</p>
             <p>{customer.industry}</p>
           </div>
