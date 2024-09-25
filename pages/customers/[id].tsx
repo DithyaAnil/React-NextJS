@@ -1,11 +1,11 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { Customer } from "./index";
-//Error : Import 'Customer' conflicts with local value, so must be declared with a type-only import when 'isolatedModules' is enabled.
-//Rename last default export to fix this
 import axios, { AxiosError } from "axios";
 import { ParsedUrlQuery } from "querystring";
-//import { notFound } from "next/navigation";
+import { ObjectId } from "mongodb";
+import clientPromise from "../../lib/mongodb";
+import { BSONError } from "bson";
 
 type Props = {
   customer?: Customer;
@@ -34,28 +34,37 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 ) => {
   const params = context.params!;
   try {
-    const result = await axios.get<{ customer: Customer }>(
-      `http://localhost:8000/api/customers/${params.id}`
-    );
+    const mongoClient = await clientPromise;
+
+    const data = (await mongoClient
+      .db()
+      .collection("customers")
+      .findOne({ _id: new ObjectId(params.id) })) as Customer;
+
+    console.log("!!!", data);
+
+    if (!data) {
+      return {
+        notFound: true,
+        revalidate: 60,
+      };
+    }
+
     return {
       props: {
-        customer: result.data.customer,
+        customer: JSON.parse(JSON.stringify(data)),
       },
       revalidate: 60,
     };
   } catch (err) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 404) {
-        return {
-          notFound: true,
-          revalidate: 60,
-        };
-      }
+    console.error(err);
+    if (BSONError) {
+      return {
+        notFound: true,
+      };
     }
-    return {
-      props: {},
-    };
   }
+  throw err;
 };
 
 const CustomerPage: NextPage<Props> = (props) => {
@@ -63,7 +72,7 @@ const CustomerPage: NextPage<Props> = (props) => {
   if (router.isFallback) {
     return <p>Loading...</p>;
   }
-  return <h1>Customer {props.customer ? props.customer.name : null}</h1>;
+  return <h1>{props.customer ? Customer : null}</h1>;
 };
 
 export default CustomerPage;

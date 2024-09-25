@@ -1,6 +1,7 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 import axios from "axios";
 import { MongoClient, ObjectId } from "mongodb";
+import clientPromise from "../../lib/mongodb";
 
 export type Customer = {
   _id: ObjectId;
@@ -9,10 +10,9 @@ export type Customer = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const mongoClient = new MongoClient(
-    `mongodb+srv://admin:yGjmZsAFPsezgfzV@customers.eeuts.mongodb.net/Customers?retryWrites=true&w=majority&appName=Customers`
-  );
-  const data = await mongoClient.db().collection("Customers").find().toArray();
+  const mongoClient = await clientPromise;
+
+  const data = await mongoClient.db().collection("customers").find().toArray();
   console.log("!!!", data);
 
   /*const result = await axios.get<{
