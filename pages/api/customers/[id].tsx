@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+import { Customer } from "../../customers/index";
 
 export const getCustomer = async (id: string | ObjectId): Promise<Customer> => {
   id = typeof id === "string" ? new ObjectId(id) : id;

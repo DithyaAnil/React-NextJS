@@ -1,7 +1,7 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 //import axios from "axios";
 import { ObjectId } from "mongodb";
-import clientPromise from "../../lib/mongodb";
+//import clientPromise from "../../lib/mongodb";
 import { getCustomers } from "../api/customers";
 
 export type Customer = {

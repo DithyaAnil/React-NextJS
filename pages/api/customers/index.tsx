@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
-import { MongoClient, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import { Customer } from "../../customers/index";
 
 type Return = {
@@ -44,6 +44,8 @@ export default async (
       };
 
       const insertedId = await addCustomer(customer);
+      res.revalidate("/customers");
+      res.revalidate("/customers/" + insertedId);
       res.status(200).json(insertedId);
     } else {
       res.status(400).json({ error: "name & insustry are required" });
