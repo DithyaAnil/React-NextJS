@@ -1,11 +1,11 @@
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+
 import Info from "@mui/icons-material/Info";
 import PersonIcon from "@mui/icons-material/Person";
-import Tooltip from "@mui/material/Tooltip";
-import { Button } from "@mui/material";
-import { CustomerComponent } from "../pages/customers";
+import { Customer } from "../pages/customers";
 
-type props = {};
-const Customer = ({ customer }: { customer: Customer }) => {
+const CustomerComponent = ({ customer }: { customer: Customer }) => {
   return (
     <div key={customer._id?.toString()} style={{ marginBottom: 40 }}>
       <span
@@ -20,9 +20,10 @@ const Customer = ({ customer }: { customer: Customer }) => {
         </Tooltip>
         {customer.name}
       </span>
-      <p>{customer.industry}</p>{" "}
+      <p>{customer.industry}</p>
       <Button variant="contained">View Orders</Button>
     </div>
   );
 };
-export default Customer;
+
+export default CustomerComponent;
