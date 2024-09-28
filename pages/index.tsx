@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Dashboard from "../components/Dashboard";
+import Theme from "../components/Theme";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
