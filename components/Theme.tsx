@@ -1,7 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -21,6 +20,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PeopleIcon from "@mui/icons-material/People";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCart from "@mui/icons-material/ShoppingCart";
 
 const drawerWidth: number = 240;
 
@@ -149,12 +149,19 @@ export default function Theme(props: any) {
                 <ListItemText primary="Dashboard" />
               </ListItemButton>
             </Link>
-            {/*<ListItemButton>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Orders" />
-            </ListItemButton>*/}
+            <Link
+              href="/orders"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              <ListItemButton
+                selected={router.pathname === "/orders" ? true : false}
+              >
+                <ListItemIcon>
+                  <ShoppingCart />
+                </ListItemIcon>
+                <ListItemText primary="Orders" />
+              </ListItemButton>
+            </Link>
             <Link
               href="/customers"
               style={{ color: "inherit", textDecoration: "inherit" }}
