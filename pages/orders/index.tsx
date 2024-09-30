@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
           customerName: customer.name,
           customerId: customer._id,
           id: order._id,
-          orderPrice: Number(order.price.numberDecimal),
+          orderPrice: Number(order.price.$numberDecimal),
         });
       });
     }

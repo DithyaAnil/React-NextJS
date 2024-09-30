@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 
 export type Order = {
   description: string;
-  price: { numberDecimal: string };
+  price: { $numberDecimal: string };
   _id: ObjectId;
 };
 
