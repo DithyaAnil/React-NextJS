@@ -1,5 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -73,6 +75,8 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 export default function Theme(props: any) {
+  const router = useRouter();
+
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -107,7 +111,10 @@ export default function Theme(props: any) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              {router.pathname === "/"
+                ? "Home"
+                : router.pathname.substring(1, 2).toLocaleUpperCase() +
+                  router.pathname.substring(2)}
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -132,7 +139,7 @@ export default function Theme(props: any) {
           <Divider />
           <List component="nav">
             <Link href="/">
-              <ListItemButton>
+              <ListItemButton selected={router.pathname === "/" ? true : false}>
                 <ListItemIcon>
                   <DashboardIcon />
                 </ListItemIcon>
@@ -146,7 +153,9 @@ export default function Theme(props: any) {
               <ListItemText primary="Orders" />
             </ListItemButton>*/}
             <Link href="/customers">
-              <ListItemButton>
+              <ListItemButton
+                selected={router.pathname === "/customer" ? true : false}
+              >
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>

@@ -7,7 +7,7 @@ import { Customer } from "../pages/customers";
 
 const CustomerComponent = ({ customer }: { customer: Customer }) => {
   return (
-    <div key={customer._id?.toString()} style={{ marginBottom: 40 }}>
+    <div style={{ marginBottom: 40 }}>
       <span
         style={{
           display: "flex",
