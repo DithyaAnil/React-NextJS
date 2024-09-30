@@ -1,7 +1,6 @@
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
-import Info from "@mui/icons-material/Info";
 import PersonIcon from "@mui/icons-material/Person";
 import { Customer } from "../pages/customers";
 import Grid from "@mui/material/Grid";

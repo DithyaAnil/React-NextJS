@@ -1,6 +1,6 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 import axios from "axios";
-import { ObjectId, MongoClient, Decimal128 } from "mongodb";
+import { ObjectId } from "mongodb";
 import { getCustomers } from "../api/customers";
 import { useQuery } from "@tanstack/react-query";
 import CustomerComponent from "../../components/Customer";
@@ -44,7 +44,7 @@ const Customers: NextPage = ({
   const { data: { data: { customers = c } = {} } = {} } = useQuery({
     queryKey: ["customers"],
     queryFn: () => {
-      return axios("/api/customers") as any;
+      return axios("/api/customers");
     },
   });
 

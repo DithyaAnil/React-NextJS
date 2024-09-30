@@ -9,7 +9,7 @@ import { ObjectId } from "mongodb";
 import { Customer } from "../customers";
 import { Order } from "../customers";
 
-const columns: GridColDef<(typeof rows)[number]>[] = [
+const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Order ID",
@@ -43,7 +43,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
 ];
 
 interface OrderRow extends Order {
-  orderPrice: Number;
+  orderPrice: number;
   customerName: string;
   customerId?: ObjectId;
   id: ObjectId;
@@ -56,7 +56,7 @@ type Props = {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const data = await getCustomers();
 
-  let orders: any = [];
+  const orders: OrderRow[] = [];
 
   data.forEach((customer: Customer) => {
     if (customer.orders) {
@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
           customerName: customer.name,
           customerId: customer._id,
           id: order._id,
-          orderPrice: Number(order.price.$numberDecimal),
+          orderPrice: Number(order.price.numberDecimal),
         });
       });
     }

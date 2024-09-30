@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Theme from "../components/Theme";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -9,6 +8,7 @@ import Link from "@mui/material/Link";
 import Chart from "../components/Chart";
 import Deposits from "../components/Deposits";
 import Orders from "../components/Orders";
+import { TypographyProps } from "@mui/material/Typography";
 
 const Home: NextPage = () => {
   return (
@@ -51,7 +51,7 @@ const Home: NextPage = () => {
     </Container>
   );
 };
-function Copyright(props: any) {
+function Copyright(props: TypographyProps) {
   return (
     <Typography
       variant="body2"
