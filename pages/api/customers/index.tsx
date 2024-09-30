@@ -47,6 +47,9 @@ export default async (
       const customer: Customer = {
         name: req.body.name,
         industry: req.body.industry,
+        orders: req.body.orders.map((order: Order) => {
+          return { ...order, _id: new ObjectId() };
+        }),
       };
 
       const insertedId = await addCustomer(customer);

@@ -17,7 +17,7 @@ export type Customer = {
   _id?: ObjectId;
   name: string;
   industry: string;
-  orders: Order[];
+  orders?: Order[];
 };
 
 export const getStaticProps: GetStaticProps = async () => {
