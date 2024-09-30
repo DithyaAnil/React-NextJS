@@ -1,17 +1,23 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 import axios from "axios";
-import { ObjectId } from "mongodb";
-import clientPromise from "../../lib/mongodb";
+import { ObjectId, MongoClient, Decimal128 } from "mongodb";
 import { getCustomers } from "../api/customers";
 import { useQuery } from "@tanstack/react-query";
 import CustomerComponent from "../../components/Customer";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 
+export type Order = {
+  description: string;
+  price: { numberDecimal: string };
+  _id: ObjectId;
+};
+
 export type Customer = {
   _id?: ObjectId;
   name: string;
   industry: string;
+  orders: Order[];
 };
 
 export const getStaticProps: GetStaticProps = async () => {
