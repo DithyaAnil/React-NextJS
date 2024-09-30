@@ -5,6 +5,9 @@ import Container from "@mui/material/Container";
 import { GetStaticProps, NextPage } from "next";
 import { getCustomers } from "../api/customers";
 import { useRouter } from "next/router";
+import { ObjectId } from "mongodb";
+import { Customer } from "../customers";
+import { Order } from "../customers";
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
   {
@@ -18,7 +21,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     width: 100,
   },
   {
-    field: "customer",
+    field: "customerName",
     headerName: "Customer",
     width: 150,
     editable: true,
@@ -31,7 +34,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     editable: true,
   },
   {
-    field: "price",
+    field: "orderPrice",
     headerName: "Price",
     type: "number",
     width: 160,
@@ -39,19 +42,31 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
   },
 ];
 
-export const getStaticProps: GetStaticProps = async () => {
+interface OrderRow extends Order {
+  orderPrice: Number;
+  customerName: string;
+  customerId?: ObjectId;
+  id: ObjectId;
+}
+
+type Props = {
+  orders: Order[];
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const data = await getCustomers();
 
   let orders: any = [];
-  data.forEach((customer) => {
+
+  data.forEach((customer: Customer) => {
     if (customer.orders) {
-      customer.orders.forEach((order) => {
+      customer.orders.forEach((order: Order) => {
         orders.push({
           ...order,
-          customer: customer.name,
+          customerName: customer.name,
           customerId: customer._id,
           id: order._id,
-          price: Number(order.price.$numberDecimal),
+          orderPrice: Number(order.price.$numberDecimal),
         });
       });
     }
@@ -64,7 +79,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const Orders: NextPage = (props: any) => {
+const Orders: NextPage<Props> = (props) => {
   const { customerId } = useRouter().query;
   console.log(customerId);
   return (
