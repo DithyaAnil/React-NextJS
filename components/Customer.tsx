@@ -4,10 +4,11 @@ import Tooltip from "@mui/material/Tooltip";
 import Info from "@mui/icons-material/Info";
 import PersonIcon from "@mui/icons-material/Person";
 import { Customer } from "../pages/customers";
+import Grid from "@mui/material/Grid";
 
 const CustomerComponent = ({ customer }: { customer: Customer }) => {
   return (
-    <div style={{ marginBottom: 40 }}>
+    <Grid item>
       <span
         style={{
           display: "flex",
@@ -22,7 +23,7 @@ const CustomerComponent = ({ customer }: { customer: Customer }) => {
       </span>
       <p>{customer.industry}</p>
       <Button variant="contained">View Orders</Button>
-    </div>
+    </Grid>
   );
 };
 
